@@ -164,7 +164,13 @@ export class ConversationExtractor {
         if (resolved) return
 
         const url = response.url()
-        if (!url.includes('/rest/thread/') || url.includes('list_ask_threads')) return
+        if (
+          !url.includes('/rest/thread/') ||
+          url.includes('list_ask_threads') ||
+          url.includes('list_recent') ||
+          url.includes('list_pinned')
+        )
+          return
 
         logger.info(`Found matching thread API response: ${url}`)
 
@@ -178,6 +184,7 @@ export class ConversationExtractor {
           if (resolved) return
 
           const parseResult = ConversationExtractor.ApiResponseSchema.safeParse(json)
+          logger.warn(`Raw API sample: ${JSON.stringify(json).slice(0, 800)}`)
           if (!parseResult.success) {
             logger.warn(`API response validation failed: ${parseResult.error.message}`)
           }
