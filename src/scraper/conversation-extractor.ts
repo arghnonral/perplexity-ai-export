@@ -184,7 +184,7 @@ export class ConversationExtractor {
           if (resolved) return
 
           const parseResult = ConversationExtractor.ApiResponseSchema.safeParse(json)
-          logger.warn(`Raw API sample: ${JSON.stringify(json).slice(0, 800)}`)
+        
           if (!parseResult.success) {
             logger.warn(`API response validation failed: ${parseResult.error.message}`)
           }
